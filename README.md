@@ -10,7 +10,7 @@ There are a few elements:
 
 ## The Code
 
-In this specific repository, we use the []`promphp/prometheus_client_php`](https://github.com/PromPHP/prometheus_client_php) composer package in Laravel.
+In this specific repository, we use the [`promphp/prometheus_client_php`](https://github.com/PromPHP/prometheus_client_php) composer package in Laravel.
 
 Files to check out:
 
