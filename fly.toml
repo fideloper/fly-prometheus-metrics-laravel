@@ -1,0 +1,62 @@
+# fly.toml app configuration file generated for laraprom on 2023-04-20T20:59:38-04:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "laraprom"
+kill_signal = "SIGINT"
+kill_timeout = 5
+primary_region = "bos"
+
+[processes]
+  app = ""
+  cron = "cron -f"
+
+[build]
+  [build.args]
+    NODE_VERSION = "18"
+    PHP_VERSION = "8.2"
+
+[env]
+  APP_NAME = "LaraProm"
+  APP_ENV = "production"
+  LOG_CHANNEL = "stderr"
+  LOG_LEVEL = "info"
+  LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  CACHE_DRIVER = "redis"
+  REDIS_PASSWORD = "1572395892b1488ea77ad3a7e7f2892f"
+  REDIS_HOST = "fly-laraprom.upstash.io"
+  REDIS_CACHE_DB = 0
+
+[experimental]
+  auto_rollback = true
+
+[metrics]
+  port = 8080
+  path = "/metrics"
+
+[[services]]
+  http_checks = []
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"
